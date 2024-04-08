@@ -110,13 +110,13 @@ pipeline {
             sh "git config user.email gaurav.dubey@nagarro.com"
             sh "git config user.name $USR"
             sh 'rm -rf argo'
-            sh "git clone https://$USR:$PSW@github.com:gorakhgaurav/argo.git"
+            sh "git clone https://$USR:$PSW@github.com/gorakhgaurav/argo.git"
             dir('argo') {
               sh "git checkout ${env.branch}"
               sh "sed -i 's/{{ .Chart.Name }}:[^ ]*/{{ .Chart.Name }}:${BUILD_NUMBER}/g' ${env.service_name}/templates/deployment.yaml"
               sh "git add ${env.service_name}/templates/deployment.yaml"
               sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
-              sh "git push https://$USR:$PSW@github.com:gorakhgaurav/argo.git HEAD:${env.branch}"
+              sh "git push https://$USR:$PSW@github.com/gorakhgaurav/argo.git HEAD:${env.branch}"
             }
           }
         }
