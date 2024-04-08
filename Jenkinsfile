@@ -73,7 +73,7 @@ pipeline {
       }
       steps {
         script {
-          sh "podman build -t ${env.service_name} --no-cache --build-arg namespace=${env.node_env} ."
+          sh "docker build -t ${env.service_name} --no-cache --build-arg namespace=${env.node_env} ."
         }
       }
     }
@@ -83,19 +83,19 @@ pipeline {
       }
       steps {
         script {
-          sh "podman tag ${env.service_name} dubeyg0692/${env.namespace}/${env.service_name}:${BUILD_NUMBER}"
+          sh "docker tag ${env.service_name} dubeyg0692/${env.namespace}/${env.service_name}:${BUILD_NUMBER}"
         }
       }
     }
-    stage('Image Push to podman') {
+    stage('Image Push to docker') {
       when {
         expression { branch in ["uat", "master"] }
       }
       steps {
         script {
           withCredentials([usernamePassword(credentialsId: 'docker-hub-credential', passwordVariable: 'PSW', usernameVariable: 'USR')]) {
-            sh 'podman login -u $USR -p $PSW hub.docker.com'
-            sh "podman push dubeyg0692/${env.namespace}/${env.service_name}:${BUILD_NUMBER}"
+            sh 'docker login -u $USR -p $PSW hub.docker.com'
+            sh "docker push dubeyg0692/${env.namespace}/${env.service_name}:${BUILD_NUMBER}"
           }
         }
       }
