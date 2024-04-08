@@ -113,7 +113,7 @@ pipeline {
             sh "git clone https://$USR:$PSW@github.com/gorakhgaurav/argo.git"
             dir('argo') {
               sh "git checkout ${env.branch}"
-              sh "sed -i 's/{{ .Chart.Name }}:[^ ]*/{{ .Chart.Name }}:${BUILD_NUMBER}/g' templates/deployment.yaml"
+              sh "sed -i 's/prode-commerce:[^ ]*/prode-commerce:${BUILD_NUMBER}/g' templates/deployment.yaml"
               sh "git add templates/deployment.yaml"
               sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
               sh "git push https://$USR:$PSW@github.com/gorakhgaurav/argo.git HEAD:${env.branch}"
