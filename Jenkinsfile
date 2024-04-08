@@ -94,7 +94,7 @@ pipeline {
       steps {
         script {
           withCredentials([usernamePassword(credentialsId: 'docker-hub-credential', passwordVariable: 'PSW', usernameVariable: 'USR')]) {
-            sh 'docker login -u $USR -p $PSW hub.docker.com'
+            sh 'docker login -u $USR -p $PSW'
             sh "docker push dubeyg0692/${env.namespace}/${env.service_name}:${BUILD_NUMBER}"
           }
         }
